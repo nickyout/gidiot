@@ -1,0 +1,24 @@
+{
+  "name": "gidiot",
+  "version": "0.1.0",
+  "description": "Git macros in nodejs",
+  "main": "gidiot.js",
+  "scripts": {
+    "test": "none"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "keywords": [
+    "git",
+    "macros",
+    "nodejs",
+    ""
+  ],
+  "author": "nickyout@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "gift": "~0.3.0"
+  }
+}
