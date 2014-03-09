@@ -1,0 +1,19 @@
+# Specific changes to file(s) in a specific commit:
+
+## Get change in stash
+git checkout [SHAsrc]
+git reset [SHAsrc]^1
+git add [All - file1, file2, .. fileN]
+git stash -u --keep-index
+git checkout -f --
+
+## Apply stash to...
+git checkout [SHAdest] -b [new_branch]
+git stash pop
+git commit -m "Applied changes to [file1, file2, .. fileN] of [SHAsrc]"
+
+## Required params
+{SHA}       SHAsrc
+{Treeish}   SHAdest|tag|branch
+{arr}       file1, file2, ..fineN
+{String=}   new_branch
