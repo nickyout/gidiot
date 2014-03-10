@@ -33,9 +33,3 @@ git commit -m "Applied changes to [file1, file2, .. fileN] of [SHAsrc]"
 
 # Return from headless state to branch
 
-
-# Add files by menu
-
-## Get available files
-git status
-git add -u

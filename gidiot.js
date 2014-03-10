@@ -9,13 +9,13 @@
      *  - {Boolean} key.shift: does not trigger by itself
      *  - {Boolean} key.ctrl: does not trigger by itself. Does not trigger for all combinations...
      */
-    console.log('Initializing module');
-    var asymple = require('./lib/asymple'),
-        git = require('gift'),
-        prompt = require('prompt'),
+    var path = process.argv[2] || '.';
+    console.log('Initializing module on ' + path);
+
+    var createMenu = require("terminal-menu"),
         keypress = require('keypress'),
-        Jetty = require("jetty"),
-        createMenu = require("terminal-menu"),
+        prompt = require('prompt'),
+        asymple = require('./lib/asymple'),
         menu = require("./lib/menu")(createMenu, {
             config: {
                 width: 29, x: 4, y: 2,
@@ -24,6 +24,9 @@
             },
             sep: '-'.grey
         });
+
+    var gift = require('gift'),
+        gitmacro = require('./lib/gitmacro')(gift(path), asymple);
 
     var menus = {
         start: function(name, callback)
@@ -40,16 +43,20 @@
             }, callback);
         },
 
-        help: function(callback)
+        help: function(result, callback)
         {
-            console.log('Sorry, can\'t help you.');
+            console.log('Status result is:'.yellow, result.clean, result.files);
             callback.next = callback.last;
-            callback();
+            callback({ success: true, index: callback.index });
         },
 
-        end: function(callback)
+        end: function(report)
         {
-            console.log('Exit');
+            if (!report)
+                console.log('Success');
+            else
+                console.log('Failure:', report.error);
+
         }
     };
 
@@ -58,76 +65,11 @@
             callback('gidiot');
         },
         menus.start,
+        gitmacro.status,
         menus.help,
         menus.end
     );
 
-
-    /*
-    var repo = git('.');
-
-    prompt.get(['username'.white, 'email'.white], function (err, result) {
-        //
-        // Log the results.
-        //
-        console.log('Command-line input received:');
-        console.log('  username: ' + result.username);
-        console.log('  email: ' + result.email);
-
-
-        repo.current_commit(function(error, returnVal)
-        {
-            console.log('Read repo:');
-            console.log(returnVal);
-        });
-    });
-    */
-
-    //var jetty = new Jetty(process.stdout);
-    //jetty.clear();
-    //jetty.text("hello world");
-    //jetty.moveTo([0,0]);
-    //jetty.text("hello panda");
-
-    // make `process.stdin` begin emitting "keypress" events
-
-    /*
-    asymple.call(this,
-
-        function(callback)
-        {
-            // listen for the "keypress" event
-            keypress(process.stdin);
-            callback('keypress', callback);
-            process.stdin.setRawMode(true);
-            process.stdin.resume();
-        },
-
-        process.stdin.on.bind(process.stdin),
-
-        function (ch, key, callback)
-        {
-            //jetty.moveTo([0,0]);
-            callback.next = callback.index;
-            if (!key)
-                return;
-
-            var i=0;
-            for (var name in key)
-            {
-                var str = name + ': ';
-                str += key[name] + '; ';
-                //jetty.moveTo([i,0]);
-                //jetty.text(str + '               \n');
-                console.log(str);
-                i++;
-            }
-            if (key && key.ctrl && key.name == 'c') {
-                process.stdin.pause();
-            }
-        }
-    );
-    */
 
 
 }).call(this);
