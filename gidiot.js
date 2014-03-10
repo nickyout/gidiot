@@ -26,7 +26,7 @@
         });
 
     var gift = require('gift'),
-        gitmacro = require('./lib/gitmacro')(gift(path), asymple);
+        gitmacro = require('./lib/gitcommand')(gift(path), asymple);
 
     var menus = {
         start: function(name, callback)

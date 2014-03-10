@@ -1,12 +1,3 @@
-# Generic
-
-## success n:
-Go to last command and pass success = false
-
-## success y:
-Go to next command
-
-
 # Specific changes to file(s) in a specific commit:
 
 ## Get change in stash
